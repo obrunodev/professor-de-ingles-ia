@@ -26,7 +26,7 @@ def get_messages(student):
         {
             'role': c.role,
             'content': c.content,
-        } for c in Message.objects.filter(student=student).order_by('-created_at')[:10]
+        } for c in Message.objects.filter(student=student).order_by('-created_at')[:12]
     ][::-1]
 
 
@@ -37,10 +37,7 @@ def echo(update: Update, context: CallbackContext) -> None:
 
     # Print to console
     # print(f'{update.message.from_user.first_name} wrote {update.message.text}')
-    prompts = ', '.join([
-        prompt.content for prompt in TeacherPrompt.objects.all()
-    ])
-    print(prompts)
+    prompts = ', '.join([prompt.content for prompt in TeacherPrompt.objects.all()])
 
     if screaming and update.message.text:
         context.bot.send_message(
@@ -67,7 +64,7 @@ def echo(update: Update, context: CallbackContext) -> None:
             messages=[
                 {
                     'role': 'system',
-                    'content': f'Você é um professor de inglês, e estes tópicos definem como você deve se comportar { prompts } """Nunca utilize a formatação MARKDOWN para construir sua resposta"""',
+                    'content': f'Você é um professor de inglês, e estes tópicos definem como você deve se comportar { prompts }. Seu aluno(a) é { student.name }, do sexo { student.gender } e tem { student.age } anos de idade. Isso é tudo que sabe sobre ele(a) { student.about } """Nunca utilize a formatação MARKDOWN para construir sua resposta"""',
                 },
                 *messages,
                 {
