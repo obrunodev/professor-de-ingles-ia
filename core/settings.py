@@ -7,7 +7,7 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['fhopzn.hospedagemelastica.com.br']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
