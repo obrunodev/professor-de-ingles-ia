@@ -1,10 +1,9 @@
-import logging, os, django, sys
+import os, django, sys
 from decouple import config
 from openai import OpenAI
-from telegram import Update, ForceReply, InlineKeyboardMarkup, InlineKeyboardButton, ParseMode
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext, CallbackQueryHandler
+from telegram import Update
+from telegram.ext import Updater, MessageHandler, Filters, CallbackContext
 
-logger = logging.getLogger(__name__)
 
 # Store bot screaming status
 screaming = False
