@@ -8,7 +8,7 @@ from decouple import config
 from openai import OpenAI
 from telegram import Bot
 from random import randint
-from englishbot.models import Student
+from englishbot.models import Student, Message
 
 TELEGRAM_TOKEN = config('TELEGRAM_BOT_TOKEN')
 OPENAI_TOKEN = config('OPENAI_API_KEY')
@@ -43,6 +43,11 @@ def main():
     for student in students:
         chat_id = student.telegram_chat_id
         bot.send_message(chat_id=chat_id, text=response_text)
+        Message.objects.create(
+            student=student,
+            role=Message.RoleChoices.ASSISTANT,
+            content=response_text,
+        )
 
 
 if __name__ == '__main__':
