@@ -7,6 +7,7 @@ django.setup()
 from decouple import config
 from openai import OpenAI
 from telegram import Bot
+from random import randint
 from englishbot.models import Student
 
 TELEGRAM_TOKEN = config('TELEGRAM_BOT_TOKEN')
@@ -18,16 +19,21 @@ client = OpenAI(api_key=OPENAI_TOKEN)
 
 
 def main():
+    tips_mapping = [
+        'Lista de vocabulários com 5 palavras em inglês e para cada uma delas, uma frase de exemplo',
+        'Uma dica gramatical de inglês'
+    ]
+
     response = client.chat.completions.create(
         model='gpt-4o-mini',
         messages=[
             {
                 'role': 'system',
-                'content': 'Você é um tutor de inglês amigável e didático, especializado em ajudar alunos de todos os níveis a aprenderem inglês de forma prática e eficiente. Forneça dicas úteis, ensine novas palavras ou frases, explique regras gramaticais, ou sugira exercícios criativos. Sempre adapte suas respostas ao nível de inglês do aluno, usando exemplos claros e mantendo o aprendizado envolvente. Certifique-se de encorajar e motivar o aluno em cada interação. """Nunca utilize a formatação MARKDOWN para construir sua resposta"""',
+                'content': 'Você é um tutor de inglês amigável e didático, especializado em ajudar alunos de todos os níveis a aprenderem inglês de forma prática e eficiente. Forneça dicas úteis, ensine novas palavras ou frases, explique regras gramaticais, ou sugira exercícios criativos. Sempre adapte suas respostas ao nível de inglês do aluno, usando exemplos claros e mantendo o aprendizado envolvente. Certifique-se de encorajar e motivar o aluno em cada interação e não usar formatação MARKDOWN para construir sua resposta.',
             },
             {
                 'role': 'user',
-                'content': 'Preciso de uma dica prática para aprender inglês ou de algo novo para aprender hoje. Pode ser palavras, frases, uma explicação gramatical ou um exercício simples para praticar.',
+                'content': f'Crie uma { tips_mapping[randint(0, len(tips_mapping) - 1)] } para um aluno que está aprendendo. Dispense cabeçalhos e rodapés, apenas a dica.',
             },
         ],
     )
