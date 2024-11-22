@@ -4,6 +4,7 @@ from django.db import models
 
 class Student(BaseModel):
     telegram_username = models.CharField('username do Telegram', max_length=100)
+    telegram_chat_id = models.CharField('chat_id do Telegram', max_length=100, blank=True, null=True)
     name = models.CharField('Nome do estudante', max_length=255)
     age = models.SmallIntegerField('Idade', default=18)
     gender = models.CharField('Gênero', max_length=50, blank=True, null=True)

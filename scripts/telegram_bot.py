@@ -34,9 +34,6 @@ def echo(update: Update, context: CallbackContext) -> None:
     """
     This function would be added to the dispatcher as a handler for messages coming from the Bot API
     """
-
-    # Print to console
-    # print(f'{update.message.from_user.first_name} wrote {update.message.text}')
     prompts = ', '.join([prompt.content for prompt in TeacherPrompt.objects.all()])
 
     if screaming and update.message.text:
@@ -50,6 +47,10 @@ def echo(update: Update, context: CallbackContext) -> None:
         username = update.message.from_user.username
         student = Student.objects.filter(telegram_username=username).first()
         message = update.message.text
+
+        if not student.telegram_chat_id:
+            student.telegram_chat_id = update.message.chat.id
+            student.save()
         
         Message.objects.create(
             student=student,
