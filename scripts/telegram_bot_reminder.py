@@ -37,7 +37,7 @@ def main():
             },
         ],
     )
-    response_text = f'Vamos aprender algo novo?\n\n{ response.choices[0].message.content }'
+    response_text = f'Vamos aprender algo novo?\n\n{ response.choices[0].message.content }\n\nSe você já recebeu essa dica, basta me pedir uma nova.'
 
     students = Student.objects.filter(telegram_chat_id__isnull=False)
     for student in students:
