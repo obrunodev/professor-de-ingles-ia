@@ -37,7 +37,7 @@ def main():
             },
         ],
     )
-    response_text = response.choices[0].message.content
+    response_text = f'Vamos aprender algo novo?\n\n{ response.choices[0].message.content }'
 
     students = Student.objects.filter(telegram_chat_id__isnull=False)
     for student in students:
